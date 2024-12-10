@@ -49,6 +49,9 @@ check_roles(['visitor']);
         <li class="nav-item">
           <a class="nav-link text-white" href="about.php">About</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="contact.php">Contact</a>
+        </li>
     <?php endif; ?>
       </ul>
     </div>

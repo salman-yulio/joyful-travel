@@ -10,7 +10,7 @@ function check_roles($allowed_roles) {
 }
 
 require_once 'functions.php';
-check_roles(['admin','visitor']);
+check_roles(['visitor']);
 ?>
 
 <!DOCTYPE html>
@@ -23,10 +23,10 @@ check_roles(['admin','visitor']);
     <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
-    
-<nav class="navbar navbar-expand-lg sticky-top" style="background-color: #009ada;">
+
+<nav class="navbar navbar-expand-lg fixed-top" style="background-color: #009ada;">
   <div class="container-fluid">
-  <a class="navbar-brand text-white" style="font-family:Arial;" href="index.php"><img src="img/logo1.png" width="60x" alt="logo"></a>
+    <a class="navbar-brand text-white" style="font-family:Arial;" href="index.php"><img src="img/logo1.png" width="60x" alt="logo"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -62,46 +62,56 @@ check_roles(['admin','visitor']);
     </ul>
   </div>
 </nav>
-
-<div class="bg-light p-4 mb-1">
-<div class="container p-3 my-3  bg-white">
-
-<div class="card mb-3">
-                <div class="card-header">
-                    <img src="img/taoi.jpg" class="rounded mx-auto d-block" alt="foto"> 
-                </div>
-                <div class="card-body">
-                    <div>
-                        <h3 class="text-center">About Us</h3>
-                    </div>
-                    <div style="text-align:justify;">
-                        <p>     Didirikan pada tahun 2024 dan dikelola oleh personel tidak berpengetahuan di industri ini, Joyful Travel adalah agen perjalanan ritel dan online fiksi yang menangani jenis perjalanan individu dan kelompok dengan distribusi penjualan yang sebagian besar berasal dari situs web dan media sosial.
-
-Jtravel juga menawarkan paket liburan tematik fiksi terlengkap yang dibuat berdasarkan minat pelanggan, seperti: pesiar, bulan madu, aktif, liburan ski, mengemudi sendiri, Club Med, phototrip, dll. Dengan berbagai akomodasi mulai dari standar hingga mewah, kami menawarkan berbagai pilihan paket menarik yang tersedia di situs web kami dan juga paket yang disesuaikan berdasarkan permintaan klien.
-
-Jtravel tidak terhubung dan didukung oleh Organisasi Pariwisata Nasional, Hotel dan resor, maskapai penerbangan, dan pemasok perjalanan manapun.Kami tidak memiliki Jaringan  di luar industri perjalanan yang memberi kami peluang menarik untuk menciptakan produk dan layanan unik untuk klien B2C.
-</p>
+<br>
+    <!-- Contact Section -->
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Contact Us</h1>
+        <div class="row justify-content-center">
+            <!-- Instagram -->
+            <div class="col-md-4 text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <i class="bi bi-instagram" style="font-size: 2rem; color: #E1306C;"></i>
+                        <h5 class="card-title mt-2">Instagram</h5>
+                        <p class="card-text">@joyfultravel</p>
+                        <a href="https://instagram.com/joyfultravel" target="_blank" class="btn btn-primary">Follow</a>
                     </div>
                 </div>
-                <div class="card-footer">
+            </div>
+            <!-- WhatsApp -->
+            <div class="col-md-4 text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <i class="bi bi-whatsapp" style="font-size: 2rem; color: #25D366;"></i>
+                        <h5 class="card-title mt-2">WhatsApp</h5>
+                        <p class="card-text">+62 812 3456 7890</p>
+                        <a href="https://wa.me/6281234567890" target="_blank" class="btn btn-success">Chat Now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Email -->
+            <div class="col-md-4 text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <i class="bi bi-envelope" style="font-size: 2rem; color: #007BFF;"></i>
+                        <h5 class="card-title mt-2">Email</h5>
+                        <p class="card-text">joyfultravel@gmail.com</p>
+                        <a href="mailto:joyfultravel@gmail.com" class="btn btn-primary">Send Email</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
 
-</div>
-</div>
-
-<footer class="text-center text-white " style="background-color: #009ada;">
+<footer class="text-center text-white fixed-bottom" style="background-color: #009ada;">
   <!-- Grid container -->
   <div class="container p-4"></div>
   <!-- Grid container -->
 
   <!-- Copyright -->
   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-  © 2024 Copyright:
-  <a class="text-white" href="http://localhost/travel1/index.php">Jtravel.com</a>
+    © 2024 Copyright:
+    <a class="text-white" href="#">Jtravel.com</a>
   </div>
   <!-- Copyright -->
 </footer>
@@ -109,5 +119,4 @@ Jtravel tidak terhubung dan didukung oleh Organisasi Pariwisata Nasional, Hotel 
 <script src="js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>
