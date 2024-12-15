@@ -9,15 +9,15 @@ if (isset($_POST["submit"])){
   if (create($_POST)>0){
       echo
       "<script>
-          alert('Pemesanan sedang diproses, harap cek inbox whatsapp secara berkala untuk informasi lebih lanjut');
-          document.location.href = 'rooms-jpn.php';
+          alert('Pemesanan berhasil');
+          document.location.href = 'guest.php';
       </script>";
   }
   else{
       echo 
       "<script>
           alert('Pemesanan Gagal');
-          document.location.href = 'rooms-jpn.php';
+          document.location.href = 'guest.php';
       </script>";
   }
 }
@@ -42,7 +42,12 @@ if (isset($_POST["submit"])){
     <label for="jml" class="form-label">Destinasi</label>
     <select name="jml" class="form-select" id="jml" required>
       <option selected disabled value="">Choose...</option>
-      <option selected>Jepang Paket 1</option>
+      <option>Australia Paket 1</option>
+      <option>Australia Paket 2</option>
+      <option>Finlandia Paket 1</option>
+      <option>Finlandia Paket 2</option>
+      <option>Jepang Paket 1</option>
+      <option>Jepang Paket 2</option>
     </select>
   </div>
   <div>

@@ -20,48 +20,12 @@ check_roles(['visitor']);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Joyful Travel</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
     
-<nav class="navbar navbar-expand-lg sticky-top" style="background-color: #009ada;">
-  <div class="container-fluid">
-  <a class="navbar-brand text-white" style="font-family:Arial;" href="index.php"><img src="img/logo1.png" width="60x" alt="logo"></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <?php if ($_SESSION['role'] === 'admin'): ?>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="index.php">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="about.php">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="guest.php">Riwayat Reservasi</a>
-        </li>
-    <?php elseif ($_SESSION['role'] === 'visitor'): ?>
-      <li class="nav-item">
-          <a class="nav-link text-white" href="index.php">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="about.php">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="contact.php">Contact</a>
-        </li>
-    <?php endif; ?>
-      </ul>
-    </div>
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <li class="nav-item">
-        <a class="nav-link text-white" onclick="return confirm('Anda Yakin Ingin Keluar?')" href="logout.php">Logout</a> 
-      </li>
-    </ul>
-  </div>
-</nav>
+<?php include('navbar.php'); ?>
 
 <div class="bg-light p-4 mb-2">
 <div class="container p-3 my-3  bg-white">
@@ -73,8 +37,6 @@ check_roles(['visitor']);
     </form> -->
     <!-- <br> -->
 
-</div>
-
 
    <div class="row">
 
@@ -85,7 +47,7 @@ check_roles(['visitor']);
 
     <div class="card mb-3">
                 <div class="card-header">
-                    <img src="https://www.goldenrama.com/_next/image?url=https%3A%2F%2Fgrts2.goldenrama.com%2Fimages%2Ffiledoc%2Fpictureref%2F9072b7e4f26ea2697ff0783c92c2189f.png&w=1920&q=75" class="rounded mx-auto d-block" alt="foto" height="500px"> 
+                    <img src="https://www.goldenrama.com/_next/image?url=https%3A%2F%2Fgrts2.goldenrama.com%2Fimages%2Ffiledoc%2Fpictureref%2F9072b7e4f26ea2697ff0783c92c2189f.png&w=1920&q=75" class="img-fluid rounded mx-auto d-block" alt="foto"> 
                 </div>
                 <div class="card-body">
                     <div>
@@ -109,7 +71,12 @@ check_roles(['visitor']);
                 </div>
                 <div class="card-footer">
                 <div>
-                    <a href="reservasi-aus1.php" class="btn btn-sml btn-primary p-1 m-1 text-white"><b>BOOK NOW</b></a>
+                    <!-- <a href="reservasi-aus1.php" class="btn btn-sml btn-primary p-1 m-1 text-white"><b>BOOK NOW</b></a> -->
+            <button type="button" class="btn btn-sml btn-primary p-1 m-1 text-white" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+            <b>BOOK NOW</b>
+          </button>
+<?php include('reservasi-aus1.php'); ?>
+
 
                                 <!-- Button trigger modal -->
             <button type="button" class="btn btn-sml btn-primary p-1 m-1 text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -195,7 +162,7 @@ Anda akan langsung diantar menuju stasiun kereta Belgrave untuk mencoba menaiki 
 
     <div class="card mb-3">
                 <div class="card-header">
-                    <img src="https://www.goldenrama.com/_next/image?url=https%3A%2F%2Fgrts2.goldenrama.com%2Fimages%2Ffiledoc%2Fpictureref%2F3c96a7932ffaf50ac77dd65cc7e731e1.png&w=1920&q=75" class="rounded mx-auto d-block"alt="" height="500px"> 
+                    <img src="https://www.goldenrama.com/_next/image?url=https%3A%2F%2Fgrts2.goldenrama.com%2Fimages%2Ffiledoc%2Fpictureref%2F3c96a7932ffaf50ac77dd65cc7e731e1.png&w=1920&q=75" class="img-fluid rounded mx-auto d-block" alt="foto-aus-2"> 
                 </div>
                 <div class="card-body">
                     <div>
@@ -218,7 +185,10 @@ Anda akan langsung diantar menuju stasiun kereta Belgrave untuk mencoba menaiki 
                 </div>
                 <div class="card-footer">
                 <div>
-                    <a href="reservasi-aus2.php" class="btn btn-sml btn-primary p-1 m-1 text-white"><b>BOOK NOW</b></a>
+                <button type="button" class="btn btn-sml btn-primary p-1 m-1 text-white" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+            <b>BOOK NOW</b>
+          </button>
+          <?php include('reservasi-aus2.php'); ?>
                     <!-- Button trigger modal -->
  <button type="button" class="btn btn-sml btn-primary p-1 m-1 text-white" data-bs-toggle="modal" data-bs-target="#exampleModal1">
     <b>Detail Perjalanan</b>
@@ -305,29 +275,6 @@ Anda akan melanjutkan perjalanan menuju kota Launceston yang berada di Pulau Tas
                   </div>
                 </div>
     </div>
-
-    <!-- <div class="card mb-3">
-                <div class="card-header">
-                    <img src="img/kyu.jpg" class="rounded mx-auto d-block"alt="" height="500px"> 
-                </div>
-                <div class="card-body">
-                    <div>
-                        <h3>Paket Bulan Madu</h3>
-                    </div>
-                    <div>
-                        <p>3D/2N Honeymoon Package</p>
-                        <p>Kayumanis Jimbaran Private Estate & Spa</p>
-                    </div>
-                    <div>
-                        <p>Harga: IDR 5.250.000 </p>
-                    </div>
-                </div>
-                <div class="card-footer">
-                <div>
-                    <a href="reservasi-aus1.php" class="btn btn-sml btn-primary p-1 m-1 text-white"><b>BOOK NOW</b></a>
-                </div>
-                </div>
-    </div> -->
 </div>
 </div>
 </div>
