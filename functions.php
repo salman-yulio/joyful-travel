@@ -59,65 +59,6 @@ function temukan($search){
     return query($query);
 }
 
-// function authenticate_user($username, $password) {
-//     // Ganti dengan koneksi database Anda
-//     $conn = new mysqli('localhost', 'root', '', 'travel1');
-
-//     if ($conn->connect_error) {
-//         die("Koneksi gagal: " . $conn->connect_error);
-//     }
-
-//     // Query pengguna
-//     $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
-//     $stmt->bind_param("s", $username);
-//     $stmt->execute();
-//     $stmt->bind_result($hashed_password);
-//     $stmt->fetch();
-
-//         // Debugging: Menampilkan hasil query
-//         if ($hashed_password) {
-//             echo "Password di database: $hashed_password<br>";
-//             echo "Password yang dimasukkan: $password<br>";
-//         } else {
-//             echo "Pengguna tidak ditemukan.<br>";
-//         }
-
-//     if ($hashed_password && password_verify($password, $hashed_password)) {
-//         return true;
-//     }
-//     return false;
-// }
-
-// function authenticate_user($username, $password) {
-//     // Koneksi ke database
-//     $conn = new mysqli('localhost', 'root', '', 'travel1');
-
-//     if ($conn->connect_error) {
-//         die("Koneksi gagal: " . $conn->connect_error);
-//     }
-
-//     // Query untuk memeriksa username dan password
-//     $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
-//     $stmt->bind_param("s", $username);
-//     $stmt->execute();
-//     $stmt->bind_result($stored_password);
-//     $stmt->fetch();
-
-//     // Debug: Menampilkan hasil query
-//     if ($stored_password) {
-//         echo "Password di database: $stored_password<br>";
-//         echo "Password yang dimasukkan: $password<br>";
-//     } else {
-//         echo "Pengguna tidak ditemukan.<br>";
-//     }
-
-//     // Bandingkan password langsung (tanpa enkripsi)
-//     if ($stored_password && $password === $stored_password) {
-//         return true;
-//     }
-//     return false;
-// }
-
 function authenticate_user($username, $password) {
     $conn = new mysqli('localhost', 'root', '', 'travel1');
 
@@ -138,6 +79,28 @@ function authenticate_user($username, $password) {
     }
     return false;
 }
+
+function register_user($username, $password) {
+    global $conn;
+
+    // Periksa apakah username sudah ada
+    $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        return -1; // Username sudah digunakan
+    }
+
+    // Masukkan pengguna baru
+    $stmt = $conn->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, 'visitor')");
+    $stmt->bind_param("ss", $username, $password);
+
+    $stmt->execute();
+    return $stmt->affected_rows;
+}
+
 
 
 ?>
