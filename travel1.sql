@@ -61,12 +61,13 @@ CREATE TABLE `users` (
 
 --
 -- Dumping data for table `users`
+-- Akun demo, password semua: password123 (disimpan sebagai bcrypt hash)
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
-(1, 'admin', 'a', 'admin'),
-(2, 'fafafufu', 'a', 'visitor'),
-(4, 'rusdi420', 'a', 'visitor');
+(1, 'admin', '$2y$10$2QUt9n/xyBRSC0jS7fB7TOYwcM15SgQdGW0oYbdw8v5RNKgtRxg9G', 'admin'),
+(2, 'fafafufu', '$2y$10$2QUt9n/xyBRSC0jS7fB7TOYwcM15SgQdGW0oYbdw8v5RNKgtRxg9G', 'visitor'),
+(4, 'rusdi420', '$2y$10$2QUt9n/xyBRSC0jS7fB7TOYwcM15SgQdGW0oYbdw8v5RNKgtRxg9G', 'visitor');
 
 --
 -- Indexes for dumped tables

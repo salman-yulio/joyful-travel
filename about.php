@@ -1,14 +1,4 @@
 <?php
-function check_roles($allowed_roles) {
-  session_start();
-
-  // Pastikan user sudah login dan memiliki role
-  if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], $allowed_roles)) {
-      header('Location: login.php'); // Redirect jika tidak memiliki akses
-      exit;
-  }
-}
-
 require_once 'functions.php';
 check_roles(['visitor']);
 ?>
@@ -58,7 +48,7 @@ check_roles(['visitor']);
   </div>
   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
     © 2024 Copyright:
-    <a class="text-white" href="http://localhost/travel1/index.php">Jtravel.com</a>
+    <a class="text-white" href="index.php">Jtravel.com</a>
   </div>
 </footer>
 

@@ -1,21 +1,12 @@
 <?php
 // Masukkan file koneksi dan fungsi helper
 require 'functions.php';
+check_roles(['admin']);
 
 // Periksa apakah tombol submit telah ditekan
 if (isset($_POST['submit'])) {
-    // Ambil data dari form
-    $id = $_POST['id'];
-    $jml = $_POST['jml']; // Destinasi
-    $cekin = $_POST['cekin']; // Tanggal keberangkatan
-
-    // Query untuk mengupdate data di database
-    $query = "UPDATE datapengunjung 
-              SET jml = '$jml', cekin = '$cekin'
-              WHERE id = $id";
-
-    // Eksekusi query
-    $result = mysqli_query($conn, $query);
+    // Update destinasi & tanggal keberangkatan (prepared statement di functions.php)
+    $result = update($_POST);
 
     // Periksa apakah update berhasil
     if ($result) {

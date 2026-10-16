@@ -13,70 +13,89 @@ function query ($query){
     return $rows;
 };
 
+// Cek login & role. Dipanggil di awal setiap halaman yang butuh login.
+function check_roles($allowed_roles) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Pastikan user sudah login dan memiliki role
+    if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], $allowed_roles)) {
+        header('Location: login.php'); // Redirect jika tidak memiliki akses
+        exit;
+    }
+}
+
+// Escape output HTML
+function e($value) {
+    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+}
+
 function create ($data){
     global $conn;
-        //ambil data dari tiap elemen yang ada di form
-        $nama=htmlspecialchars($data["nama"]);
-        $jml=htmlspecialchars($data["jml"]);
-        $cekin=htmlspecialchars($data["cekin"]);
-        $no=htmlspecialchars($data["no"]);
-    
-        //query insert data
-        $query = "INSERT INTO datapengunjung
-                    VALUES ('','$nama','$jml','$cekin','$no','','')";
-    
-        mysqli_query($conn,$query);
-        return mysqli_affected_rows($conn);
-    
+    //query insert data (prepared statement, aman dari SQL injection)
+    $stmt = mysqli_prepare($conn, "INSERT INTO datapengunjung (nama, jml, cekin, no) VALUES (?, ?, ?, ?)");
+    mysqli_stmt_bind_param($stmt, "ssss", $data["nama"], $data["jml"], $data["cekin"], $data["no"]);
+    mysqli_stmt_execute($stmt);
+    return mysqli_stmt_affected_rows($stmt);
 }
 
 function hapus ($id){
     global $conn;
-    mysqli_query($conn,"DELETE FROM datapengunjung WHERE id = $id");
-    mysqli_affected_rows($conn);
+    $id = (int) $id;
+    $stmt = mysqli_prepare($conn, "DELETE FROM datapengunjung WHERE id = ?");
+    mysqli_stmt_bind_param($stmt, "i", $id);
+    mysqli_stmt_execute($stmt);
+    return mysqli_stmt_affected_rows($stmt);
 }
 
 function update($data){
     global $conn;
-    //ambil data dari tiap elemen yang ada di form
-    $id=$data["id"];
-    $cekin=htmlspecialchars($data["cekin"]);
-    
-    //query update data
-    $query = "UPDATE datapengunjung SET
-            cekin = '$cekin'
-            WHERE id=$id
-            ";
-    
-    mysqli_query($conn,$query);
-    return mysqli_affected_rows($conn);
+    $id = (int) $data["id"];
+
+    //query update data (destinasi & tanggal keberangkatan)
+    $stmt = mysqli_prepare($conn, "UPDATE datapengunjung SET jml = ?, cekin = ? WHERE id = ?");
+    mysqli_stmt_bind_param($stmt, "ssi", $data["jml"], $data["cekin"], $id);
+    return mysqli_stmt_execute($stmt);
 }
 
 function temukan($search){
-    $query = "SELECT * FROM datapengunjung WHERE
-    nama LIKE '%$search%'
-    ";
-    return query($query);
+    global $conn;
+    $keyword = "%" . $search . "%";
+    $stmt = mysqli_prepare($conn, "SELECT * FROM datapengunjung WHERE nama LIKE ? ORDER BY id DESC");
+    mysqli_stmt_bind_param($stmt, "s", $keyword);
+    mysqli_stmt_execute($stmt);
+    return mysqli_fetch_all(mysqli_stmt_get_result($stmt), MYSQLI_ASSOC);
 }
 
 function authenticate_user($username, $password) {
-    $conn = new mysqli('localhost', 'root', '', 'travel1');
-
-    if ($conn->connect_error) {
-        die("Koneksi gagal: " . $conn->connect_error);
-    }
+    global $conn;
 
     // Query untuk mendapatkan password dan role
-    $stmt = $conn->prepare("SELECT password, role FROM users WHERE username = ?");
+    $stmt = $conn->prepare("SELECT id, password, role FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
-    $stmt->bind_result($hashed_password, $role);
-    $stmt->fetch();
+    $stmt->bind_result($id, $hashed_password, $role);
+    $found = $stmt->fetch();
+    $stmt->close();
 
-    // Verifikasi password (gunakan strcmp jika password tidak terenkripsi)
-    if ($hashed_password && $password === $hashed_password) {
+    if (!$found) {
+        return false;
+    }
+
+    if (password_verify($password, $hashed_password)) {
         return ['username' => $username, 'role' => $role];
     }
+
+    // Akun lama yang password-nya masih tersimpan polos: verifikasi sekali, lalu ganti dengan hash
+    if (hash_equals($hashed_password, $password)) {
+        $new_hash = password_hash($password, PASSWORD_DEFAULT);
+        $upd = $conn->prepare("UPDATE users SET password = ? WHERE id = ?");
+        $upd->bind_param("si", $new_hash, $id);
+        $upd->execute();
+        return ['username' => $username, 'role' => $role];
+    }
+
     return false;
 }
 
@@ -93,9 +112,10 @@ function register_user($username, $password) {
         return -1; // Username sudah digunakan
     }
 
-    // Masukkan pengguna baru
+    // Masukkan pengguna baru, password disimpan sebagai hash
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
     $stmt = $conn->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, 'visitor')");
-    $stmt->bind_param("ss", $username, $password);
+    $stmt->bind_param("ss", $username, $password_hash);
 
     $stmt->execute();
     return $stmt->affected_rows;

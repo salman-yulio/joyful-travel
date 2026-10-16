@@ -1,20 +1,25 @@
 <?php
 
     require 'functions.php';
+    check_roles(['admin']);
 
-    $id = $_GET["id"];
+    // Hanya terima POST, supaya pembatalan tidak bisa dipicu lewat link
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST["id"])) {
+        header('Location: guest.php');
+        exit;
+    }
 
-    if (hapus($id)>0){
-        echo 
+    if (hapus($_POST["id"]) > 0){
+        echo
         "<script>
-            alert('Pembatalan pesanan Gagal');
+            alert('Pemesanan berhasil dibatalkan');
             document.location.href = 'guest.php';
         </script>";
     }
     else {
-        echo 
+        echo
         "<script>
-            alert('Pemesanan berhasil dibatalkan');
+            alert('Pembatalan pesanan Gagal');
             document.location.href = 'guest.php';
         </script>";
     }

@@ -1,14 +1,4 @@
 <?php
-function check_roles($allowed_roles) {
-  session_start();
-
-  // Pastikan user sudah login dan memiliki role
-  if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], $allowed_roles)) {
-      header('Location: login.php'); // Redirect jika tidak memiliki akses
-      exit;
-  }
-}
-
 require_once 'functions.php';
 check_roles(['visitor']);
 ?>

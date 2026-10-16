@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_data = authenticate_user($username, $password);
 
     if ($user_data) {
+        session_regenerate_id(true); // cegah session fixation
         $_SESSION['user'] = $user_data['username'];
         $_SESSION['role'] = $user_data['role'];
 

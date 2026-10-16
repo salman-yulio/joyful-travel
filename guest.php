@@ -1,24 +1,13 @@
 <?php
-
-function check_roles($allowed_roles) {
-  session_start();
-
-  // Pastikan user sudah login dan memiliki role
-  if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], $allowed_roles)) {
-      header('Location: login.php'); // Redirect jika tidak memiliki akses
-      exit;
-  }
-}
-
 require 'functions.php';
+check_roles(['admin']);
+
 $sql = query("SELECT * FROM datapengunjung ORDER BY id DESC");
 
 // Tombol search
 if (isset($_POST["temukan"])){
   $sql = temukan($_POST['search']);
 }
-
-check_roles(['admin']);
 ?>
 
 <!DOCTYPE html>
@@ -71,19 +60,22 @@ check_roles(['admin']);
                     <?php foreach ($sql as $row): ?>
                     <tr>
                         <th><?= $i; ?></th>
-                        <td><?= $row["nama"]; ?></td>
-                        <td><?= $row["jml"]; ?></td>
-                        <td><?= $row["cekin"]; ?></td>
-                        <td><?= $row["no"]; ?></td>
+                        <td><?= e($row["nama"]); ?></td>
+                        <td><?= e($row["jml"]); ?></td>
+                        <td><?= e($row["cekin"]); ?></td>
+                        <td><?= e($row["no"]); ?></td>
                         <td>
-                            <a href="hapus.php?id=<?=$row["id"]; ?>" onclick="return confirm('Anda Yakin Ingin Membatalkan Pemesanan?')" class="btn btn-outline-info">Batal</a>
-                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" 
+                            <form action="hapus.php" method="post" class="d-inline" onsubmit="return confirm('Anda Yakin Ingin Membatalkan Pemesanan?')">
+                                <input type="hidden" name="id" value="<?= (int) $row["id"]; ?>">
+                                <button type="submit" class="btn btn-outline-info">Batal</button>
+                            </form>
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
                                 data-bs-target="#rescheduleModal"
-                                data-id="<?= $row['id']; ?>"
-                                data-nama="<?= htmlspecialchars($row['nama']); ?>"
-                                data-destinasi="<?= htmlspecialchars($row['jml']); ?>"
-                                data-tanggal="<?= $row['cekin']; ?>"
-                                data-no="<?= htmlspecialchars($row['no']); ?>">
+                                data-id="<?= (int) $row['id']; ?>"
+                                data-nama="<?= e($row['nama']); ?>"
+                                data-destinasi="<?= e($row['jml']); ?>"
+                                data-tanggal="<?= e($row['cekin']); ?>"
+                                data-no="<?= e($row['no']); ?>">
                                 Reschedule
                             </button>
                         </td>
